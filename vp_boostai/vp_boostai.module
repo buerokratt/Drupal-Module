@@ -1,0 +1,89 @@
+<?php
+
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\vp_boostai\Form\BoostAiConfigForm;
+
+/**
+ * Implements hook_library_info_alter().
+ */
+function vp_boostai_library_info_alter(&$libraries, $extension) {
+  if ($extension === 'vp_boostai') {
+    $boostai_js_url = \Drupal::config(BoostAiConfigForm::SETTINGS)->get('vp_boostai_js_url');
+    $libraries['vp_boostai.chatbot']['js'][$boostai_js_url] = ['external' => TRUE];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function vp_boostai_preprocess_html(&$variables) {
+  $language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT);
+  $boostai_config_values = \Drupal::config(BoostAiConfigForm::SETTINGS)->getRawData();
+
+  $is_admin_route = \Drupal::service('router.admin_context')->isAdminRoute();
+
+  if ($is_admin_route) {
+    return;
+  }
+
+  $visibility = $boostai_config_values['vp_boostai_visibility'] ?? BoostAiConfigForm::BOOSTAI_VISIBILITY_LISTED;
+  $pages_var = $boostai_config_values['vp_boostai_pages'];
+  $pages = strtolower(trim($pages_var));
+  $api_url = $boostai_config_values['vp_boostai_api_url'];
+  $focus_color = $boostai_config_values['vp_boostai_input_focus_color'];
+
+  if ($visibility == BoostAiConfigForm::BOOSTAI_VISIBILITY_LISTED && !$pages) {
+    return;
+  }
+
+  $currenrt_path = \Drupal::service('path.current')->getPath();
+  $path = mb_strtolower(\Drupal::service('path_alias.manager')->getAliasByPath(
+    $currenrt_path,
+    $language->getId()
+  ));
+
+  $page_match = \Drupal::service('path.matcher')->matchPath($path, $pages);
+
+  // Double check if URL in configuration like /node/*.
+  if (!$page_match) {
+    $page_match = \Drupal::service('path.matcher')->matchPath($currenrt_path, $pages);
+  }
+
+  if (
+    ($visibility == BoostAiConfigForm::BOOSTAI_VISIBILITY_LISTED && $page_match) ||
+    ($visibility == BoostAiConfigForm::BOOSTAI_VISIBILITY_NOTLISTED && !$page_match)
+  ) {
+    $boost_ai_settings = [
+      'vp_boostai_open' => $boostai_config_values['vp_boostai_show_open'] ?? FALSE,
+      'vp_boostai_open_mobile' => $boostai_config_values['vp_boostai_show_open_mobile'] ?? FALSE,
+      'vp_boostai_color' => $boostai_config_values['vp_boostai_input_focus_color'],
+      'vp_boostai_settings'  => [
+        'RUUTER_API_URL' => $api_url,
+        'OFFICE_HOURS' => [
+          'TIMEZONE' => 'Europe/Tallinn',
+          'BEGIN' => (int) $boostai_config_values['office_start_time'],
+          'END' => (int) $boostai_config_values['office_end_time'],
+          'DAYS' => array_values($boostai_config_values['office_days']),
+        ],
+      ],
+    ];
+    if ($focus_color) {
+      $boost_ai_settings['vp_boostai_settings']['inputFocusColor'] = $focus_color;
+    }
+
+    if ($boostai_config_values['vp_boostai_authentication_url']) {
+      $boost_ai_settings['vp_boostai_settings']['TIM_AUTHENTICATION_URL'] = $boostai_config_values['vp_boostai_authentication_url'];
+    }
+
+    $variables['#attached']['library'][] = 'vp_boostai/vp_boostai.chatbot';
+    $variables['#attached']['drupalSettings']['vp_boostai'] = $boost_ai_settings;
+
+    $variables['page_bottom']['boostai_button'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'id' => 'byk-va',
+      ],
+    ];
+  }
+}

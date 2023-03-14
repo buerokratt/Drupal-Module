@@ -1,0 +1,7 @@
+vp_boostai.settings:
+  path: '/admin/vp/boost-ai'
+  defaults:
+    _form: '\Drupal\vp_boostai\Form\BoostAiConfigForm'
+    _title: 'Byrokratt Settings'
+  requirements:
+    _permission: 'administer vp settings'

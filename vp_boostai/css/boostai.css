@@ -1,0 +1,89 @@
+#byk-va > div {
+  z-index: 99;
+  transform: none!important;
+}
+
+#byk-va > div > div {
+  right: 8px;
+  bottom: 0;
+}
+
+#byk-va > div > div > img {
+  max-width: 100%;
+  width: 100%;
+}
+
+@media screen and (min-width: 992px) {
+  .scroll-button-visible #byk-va > div > div {
+    bottom: 70px;
+  }
+
+  .scroll-button-visible-rocketchat #byk-va > div > div {
+    bottom: 150px;
+  }
+
+  #byk-va > div:not([style^="position"]) {
+    bottom: 0;
+  }
+
+  .eu-cookie-compliance-popup-open #byk-va > div:not([style^="position"]) {
+    bottom: 0;
+  }
+
+  .scroll-button-visible #byk-va > div:not([style^="position"]) {
+    bottom: 60px;
+  }
+
+  .scroll-button-visible-rocketchat #byk-va > div:not([style^="position"]) {
+    bottom: 140px;
+  }
+
+  .eu-cookie-compliance-popup-open.scroll-button-visible #byk-va > div:not([style^="position"]) {
+    bottom: 60px;
+  }
+
+  .eu-cookie-compliance-popup-open.scroll-button-visible-rocketchat #byk-va > div:not([style^="position"]) {
+    bottom: 140px;
+  }
+}
+
+#byk-va .hamburger-icon {
+  margin-top: 4px;
+}
+
+#byk-va .hamburger-icon + div + div {
+  right: 1em !important;
+}
+
+#byk-va .hamburger-icon + div + div button {
+  transition: 250ms all ease;
+}
+
+#byk-va .hamburger-icon + div + div button:hover {
+  transform: scale(1.2) translateZ(0px);
+}
+
+#byk-va .os-content img[src*="buerokratt-icon"],
+#byk-va .os-content img[src*="Customer_icon"] {
+  max-width: 90%;
+  margin-top: -5px;
+}
+  
+
+@media screen and (max-width: 768px) {
+
+  #byk-va > div > div {
+    right: 3.5rem;
+    bottom: 0;    
+  }
+
+  #byk-va > div:not([style^="position"]) {
+    bottom: 60px;
+  }
+
+  #byk-va > div[style^="position"] > div {
+    padding: .5rem;
+    width: 45px;
+    height: 45px;
+  }
+}

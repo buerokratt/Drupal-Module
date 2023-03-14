@@ -1,0 +1,6 @@
+vp_boostai.settings:
+  title: 'Bürokratt settings'
+  description: 'Bürokratt chatbot settings'
+  route_name: vp_boostai.settings
+  parent: system.admin_config_system
+  weight: 12

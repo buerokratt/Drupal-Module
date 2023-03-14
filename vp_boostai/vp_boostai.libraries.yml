@@ -1,0 +1,21 @@
+vp_boostai.chatbot_init:
+  version: VERSION
+  js:
+    js/boostai-init.js: { }
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupalSettings
+
+vp_boostai.chatbot:
+  version: VERSION
+  css:
+    theme:
+      css/boostai.css: {}
+  js:
+    js/boostai.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupalSettings
+    - vp_boostai/vp_boostai.chatbot_init

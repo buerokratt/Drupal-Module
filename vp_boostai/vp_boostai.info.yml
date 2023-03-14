@@ -1,0 +1,7 @@
+name: 'Bürokratt Chatbot'
+type: module
+description: 'Base module for Bürokratt chatbot functionality'
+core_version_requirement: ^9 || ^10
+package: VP
+'interface translation project': vp_boostai
+'interface translation server pattern': modules/vp_boostai/translations/%project.%language.po

@@ -1,0 +1,6 @@
+services:
+  vp_boostai.csp_subscriber:
+    class: Drupal\vp_boostai\EventSubscriber\VpBoostAiCspSubscriber
+    arguments: ['@config.factory', '@library.dependency_resolver']
+    tags:
+      - { name: event_subscriber }

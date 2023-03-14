@@ -1,0 +1,38 @@
+vp_boostai.settings:
+  type: config_object
+  mapping:
+    vp_boostai_api_url:
+      type: string
+      label: 'Base API URL'
+    vp_boostai_authentication_url:
+      type: string
+      label: 'Authentication url'
+    vp_boostai_js_url:
+      type: string
+      label: 'Chat panel JavaScript'
+    vp_boostai_show_open:
+      type: integer
+      label: 'Show chatbox open'
+    vp_boostai_show_open_mobile:
+      type: integer
+      label: 'Show chatbox open (mobile)'
+    vp_boostai_input_focus_color:
+      type: string
+      label: 'Focus color'
+    vp_boostai_visibility:
+      type: string
+      label: 'Show chat on specific pages'
+    vp_boostai_pages:
+      type: string
+      label: 'Pages'
+    office_start_time:
+      type: integer
+      label: 'Office start time'
+    office_end_time:
+      type: integer
+      label: 'Office end time'
+    office_days:
+      type: sequence
+      label: 'Office days'
+      sequence:
+        type: integer

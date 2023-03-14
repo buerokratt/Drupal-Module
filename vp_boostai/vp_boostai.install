@@ -1,0 +1,22 @@
+<?php
+/**
+ * Implements hook_install().
+ */
+function vp_boostai_install() {
+  vp_boostai_import_translations();
+}
+
+/**
+ * Import translations.
+ */
+function vp_boostai_import_translations(): void {
+  $file = new \stdClass();
+  $file->uri = \Drupal::service('extension.list.module')->getPath('vp_boostai') . '/translations/vp_boostai.et.po';
+  $file->langcode = 'et';
+
+  \Drupal\locale\Gettext::fileToDatabase($file, [
+    'overwrite_options' => [
+      'customized' => TRUE,
+    ],
+  ]);
+}
